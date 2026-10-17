@@ -1,4 +1,4 @@
-##AI Travel Assistant (n8n + MCP)
+#AI Travel Assistant (n8n + MCP)
 
 This project is an AI-powered travel assistant built in n8n. It connects a chat-facing AI Agent to a custom Model Context Protocol (MCP) server so the assistant can retrieve travel information from external APIs before making recommendations. It also includes optional Google Sheets-based travel preference storage for personalized suggestions.
 Workflows Used
