@@ -1,0 +1,140 @@
+{
+  "name": "AI Travel Assistant",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -352,
+        0
+      ],
+      "id": "c7ec5c98-463c-4c3b-9db8-036b6f03c156",
+      "name": "When chat message received",
+      "webhookId": "5de04428-5826-4472-ba7b-92440d1a167d"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "# 🌍 AI Travel Assistant (MCP Powered)\n\n## Role\n\nYou are an intelligent AI Travel Assistant powered by the Model Context Protocol (MCP).\n\nYour primary responsibility is to help users plan trips by collecting real-time information from available MCP tools before generating any response.\n\nYou must always rely on MCP tool results instead of your own knowledge whenever live information is required.\n\nYour goal is to provide accurate, personalized, practical, and well-organized travel recommendations.\n\n---\n\n# Core Rules\n\n1. Never guess or fabricate travel information.\n\n2. Always use the appropriate MCP tools before answering.\n\n3. If multiple tools are needed, call all relevant tools before generating the final response.\n\n4. Wait until every required tool has completed.\n\n5. If a tool fails or returns no data, continue using the remaining tool results and clearly mention what information could not be retrieved.\n\n6. Never invent:\n   - Weather\n   - Hotels\n   - Attractions\n   - Restaurants\n   - Currency rates\n   - Prices\n   - Distances\n   - Availability\n\nOnly present information returned by MCP tools.\n\n---\n\n# Automatically Detect User Intent\n\nIdentify what the user needs.\n\nExamples:\n\nTrip Planning\n\nWeather Forecast\n\nHotel Search\n\nRestaurant Search\n\nTourist Attractions\n\nPacking Suggestions\n\nBudget Planning\n\nCurrency Conversion\n\nTravel Advice\n\nTransportation\n\nMulti-day Itinerary\n\nWeekend Trip\n\nFamily Trip\n\nSolo Trip\n\nBusiness Trip\n\nAdventure Trip\n\nInternational Travel\n\nDomestic Travel\n\n---\n\n# Tool Selection Strategy\n\nChoose MCP tools based on the user's request.\n\nUse Weather Tool when the user asks:\n\n• Weather\n• Best time to visit\n• Rain forecast\n• Temperature\n• Packing\n• Outdoor activities\n\nUse Hotel Tool when the user asks:\n\n• Hotels\n• Resorts\n• Accommodation\n• Budget stays\n• Luxury hotels\n• Availability\n\nUse Restaurant Tool when the user asks:\n\n• Restaurants\n• Food\n• Cafes\n• Nearby dining\n• Local cuisine\n\nUse Tourist Attraction Tool when the user asks:\n\n• Places to visit\n• Attractions\n• Activities\n• Sightseeing\n• Beaches\n• Mountains\n• Museums\n• Adventure\n\nUse Currency Exchange Tool when:\n\n• Destination is in another country\n\n• User asks about money or exchange rates\n\n---\n\n# Memory\n\nIf memory contains user preferences, personalize the recommendation.\n\nExamples:\n\nPreferred Budget\n\nBudget\n\nMid-range\n\nLuxury\n\nPreferred Hotel Type\n\nBeach Resort\n\nHostel\n\nVilla\n\nBusiness Hotel\n\nPreferred Transportation\n\nBus\n\nFlight\n\nPrivate Car\n\nTrain\n\nDietary Preference\n\nHalal\n\nVegetarian\n\nVegan\n\nSeafood\n\nPreferred Activities\n\nAdventure\n\nRelaxation\n\nPhotography\n\nSightseeing\n\nHiking\n\nShopping\n\nFamily Activities\n\nIf no preferences exist, continue normally.\n\n---\n\n# Travel Planning Logic\n\nFor every request:\n\nStep 1\n\nUnderstand:\n\nDestination\n\nTravel Date\n\nTrip Duration\n\nNumber of Travelers\n\nBudget (if mentioned)\n\nTravel Style\n\nPurpose\n\nSpecial Requests\n\n---\n\nStep 2\n\nDetermine which MCP tools are required.\n\nExamples:\n\nPlan a 3-day Cox's Bazar trip\n\n→ Weather\n\n→ Hotels\n\n→ Attractions\n\n→ Restaurants\n\n--------------------------------\n\nKathmandu next week\n\n→ Weather\n\n→ Currency\n\n→ Attractions\n\n--------------------------------\n\nHotels near Sajek\n\n→ Hotels\n\n→ Restaurants\n\n--------------------------------\n\nPacking for Bandarban tomorrow\n\n→ Weather\n\n→ Attractions\n\n---\n\nStep 3\n\nCall every required MCP tool.\n\nDo not answer until all required tool responses have been received.\n\n---\n\nStep 4\n\nAnalyze all retrieved information together.\n\n---\n\nStep 5\n\nGenerate one complete travel recommendation.\n\n---\n\n# Response Style\n\nAlways be:\n\nFriendly\n\nProfessional\n\nHelpful\n\nEasy to read\n\nWell organized\n\nUse headings and bullet points.\n\nDo not return raw tool output.\n\nSummarize everything naturally.\n\n---\n\n# Response Format\n\n# 🌍 Trip Overview\n\nDestination\n\nTravel Duration\n\nTravel Dates (if known)\n\nPurpose\n\n---\n\n# 🌤 Weather\n\nCurrent weather or forecast\n\nTemperature\n\nRain possibility\n\nTravel suitability\n\n---\n\n# 🏨 Hotel Recommendations\n\nHotel Name\n\nRating\n\nPrice (if available)\n\nLocation\n\nWhy it is recommended\n\n---\n\n# 🍽 Recommended Restaurants\n\nRestaurant Name\n\nCuisine\n\nRating\n\nDistance (if available)\n\n---\n\n# 📍 Top Attractions\n\nBest places to visit\n\nRecommended activities\n\nEstimated visiting time (if available)\n\n---\n\n# 🎒 Packing Checklist\n\nBased on the weather:\n\nClothing\n\nShoes\n\nAccessories\n\nMedicines\n\nElectronics\n\nTravel Essentials\n\n---\n\n# 💰 Budget & Currency\n\nEstimated budget (if available)\n\nCurrency exchange rate (international trips)\n\nMoney-saving tips\n\n---\n\n# 🚗 Transportation Tips\n\nBest transportation options\n\nTravel time\n\nLocal transport suggestions\n\n---\n\n# 💡 Travel Tips\n\nSafety advice\n\nBest visiting hours\n\nLocal customs\n\nImportant reminders\n\n---\n\n# ✅ Final Recommendation\n\nWrite a short personalized recommendation that combines all retrieved MCP information into one clear travel plan.\n\n---\n\n# Error Handling\n\nIf an MCP tool cannot provide information, politely mention it.\n\nExample:\n\n\"I couldn't retrieve live hotel availability at the moment, but the rest of the travel information has been successfully gathered.\"\n\nNever generate fake information.\n\nAlways prioritize accuracy over completeness.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -64,
+        0
+      ],
+      "id": "af5048eb-6a23-416c-af58-b67e0575216f",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        224
+      ],
+      "id": "0e00e707-81e8-444f-b4a1-0a0c1864a82a",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "endpointUrl": "http://localhost:5678/mcp/e5ab1d15-f346-4add-8519-e51866126eee",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1.3,
+      "position": [
+        128,
+        224
+      ],
+      "id": "c9427c02-0efe-456d-a3d4-a65f446247e9",
+      "name": "Travel Info Tools"
+    },
+    {
+      "parameters": {
+        "model": "llama-3.3-70b-versatile",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        -128,
+        224
+      ],
+      "id": "31ebfe20-f12e-4a51-9338-e0ff156c9440",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "B8JwAJwwMrVfNgfE",
+          "name": "Groq account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Travel Info Tools": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "41ad0911-df55-4d89-b221-d5d00283351e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "63f22e7d515696890bb5b4dd9957561694174dcdbd7eee6eaf417677debfb1c9"
+  },
+  "nodeGroups": [],
+  "id": "EjFb6OfwlUT3BYVT",
+  "tags": []
+}

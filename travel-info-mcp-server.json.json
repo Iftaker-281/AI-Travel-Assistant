@@ -1,0 +1,492 @@
+{
+  "name": "Travel Info MCP Server",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "e5ab1d15-f346-4add-8519-e51866126eee"
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpTrigger",
+      "typeVersion": 2,
+      "position": [
+        112,
+        0
+      ],
+      "id": "ca1a0d17-23a5-42ea-9e88-e3658dffd1a4",
+      "name": "MCP Server Trigger",
+      "webhookId": "e5ab1d15-f346-4add-8519-e51866126eee"
+    },
+    {
+      "parameters": {
+        "url": "https://api.opentripmap.com/0.1/en/places/radius",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "radius",
+              "value": "15000"
+            },
+            {
+              "name": "lon",
+              "value": "={{ $fromAI(\"longitude\", \"Longitude of destination\") }}"
+            },
+            {
+              "name": "lat",
+              "value": "={{ $fromAI(\"latitude\", \"Latitude of destination\") }}"
+            },
+            {
+              "name": "kinds",
+              "value": "accomodations"
+            },
+            {
+              "name": "limit",
+              "value": "10"
+            },
+            {
+              "name": "apikey",
+              "value": "5ae2e3f221c38a28845f05b6c9994cddb8a13e0f5a19897b049147e2"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.4,
+      "position": [
+        -496,
+        176
+      ],
+      "id": "2662b648-1e6b-420a-8041-397c4180a19b",
+      "name": "search_hotels"
+    },
+    {
+      "parameters": {
+        "url": "https://api.opentripmap.com/0.1/en/places/radius",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "radius",
+              "value": "15000"
+            },
+            {
+              "name": "lon",
+              "value": "={{ $fromAI(\"longitude\", \"Longitude of destination\") }}"
+            },
+            {
+              "name": "lat",
+              "value": "={{ $fromAI(\"latitude\", \"Latitude of destination\") }}"
+            },
+            {
+              "name": "kinds",
+              "value": "foods"
+            },
+            {
+              "name": "limit",
+              "value": "10"
+            },
+            {
+              "name": "apikey",
+              "value": "5ae2e3f221c38a28845f05b6c9994cddb8a13e0f5a19897b049147e2"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.4,
+      "position": [
+        -288,
+        208
+      ],
+      "id": "30d64a2a-63b0-4fcf-80a7-27b21f83a4de",
+      "name": "find_restaurant"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Fetches current weather conditions for a given location using latitude and longitude coordinates.",
+        "url": "https://api.open-meteo.com/v1/forecast",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "latitude",
+              "value": "={{ $fromAI(\"latitude\", \"Latitude of the location\") }}"
+            },
+            {
+              "name": "longitude",
+              "value": "={{ $fromAI(\"longitude\", \"Longitude of the location\") }}"
+            },
+            {
+              "name": "current_weather",
+              "value": "true"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.4,
+      "position": [
+        -80,
+        240
+      ],
+      "id": "3a5496a3-06a4-4f45-abe1-a38a6108ac54",
+      "name": "get_weather"
+    },
+    {
+      "parameters": {
+        "url": "https://api.opentripmap.com/0.1/en/places/radius",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "radius",
+              "value": "15000"
+            },
+            {
+              "name": "lon",
+              "value": "={{ $fromAI(\"longitude\", \"Longitude of destination\") }}"
+            },
+            {
+              "name": "lat",
+              "value": "={{ $fromAI(\"latitude\", \"Latitude of destination\") }}"
+            },
+            {
+              "name": "kinds",
+              "value": "interesting_places"
+            },
+            {
+              "name": "limit",
+              "value": "10"
+            },
+            {
+              "name": "apikey",
+              "value": "5ae2e3f221c38a28845f05b6c9994cddb8a13e0f5a19897b049147e2"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.4,
+      "position": [
+        96,
+        224
+      ],
+      "id": "dfe7436a-4b9f-4afa-ac1c-8cca8e70037f",
+      "name": "search_attractions"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Gets the current exchange rate between two currencies for international travel.",
+        "url": "=https://api.exchangerate-api.com/v4/latest/{{ $fromAI(\"base_currency\", \"Base currency code e.g. USD\") }}",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.4,
+      "position": [
+        320,
+        224
+      ],
+      "id": "1a1bcbb2-1953-485e-8709-0e8dff89e87e",
+      "name": "get_exchange_rate"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Finds the exact latitude and longitude of a place or city by name. Always call this first before using weather, hotel, restaurant, or attraction tools.",
+        "url": "https://geocoding-api.open-meteo.com/v1/search",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "name",
+              "value": "={{ $fromAI(\"place_name\", \"Name of the city or place to search for\") }}"
+            },
+            {
+              "name": "count",
+              "value": "1"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.4,
+      "position": [
+        592,
+        224
+      ],
+      "id": "3eee5013-d4bc-4a34-bdbf-aa6e0a91ce9a",
+      "name": "find_destination"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1i4x8ab_eRF1ZfOHyhN_B1hrDj3lOplpiEPjt0ZmYYUE",
+          "mode": "list",
+          "cachedResultName": "Travel Preferences",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1i4x8ab_eRF1ZfOHyhN_B1hrDj3lOplpiEPjt0ZmYYUE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "user_id",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1i4x8ab_eRF1ZfOHyhN_B1hrDj3lOplpiEPjt0ZmYYUE/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "user_id": "={{ $fromAI(\"user_id\", \"Unique identifier for the user\") }}",
+            "budget": "={{ $fromAI(\"budget\", \"Budget preference: Budget, Mid-range, or Luxury\") }}",
+            "hotel_type": "={{ $fromAI(\"hotel_type\", \"Preferred hotel type\") }}",
+            "transport": "={{ $fromAI(\"transport\", \"Preferred transportation method\") }}",
+            "activities": "={{ $fromAI(\"activities\", \"Preferred activity type: Adventure, Relaxation, or Sightseeing\") }}",
+            "updated_at": "={{ $now }}"
+          },
+          "matchingColumns": [
+            "user_id"
+          ],
+          "schema": [
+            {
+              "id": "user_id",
+              "displayName": "user_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "budget",
+              "displayName": "budget",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "hotel_type",
+              "displayName": "hotel_type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "transport",
+              "displayName": "transport",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "diet",
+              "displayName": "diet",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "activities",
+              "displayName": "activities",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "updated_at",
+              "displayName": "updated_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        1072,
+        224
+      ],
+      "id": "9ebc5610-b077-4d44-96ca-cdbf15754328",
+      "name": "save_preference",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "oqXYwRuvpF1NinLq",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1i4x8ab_eRF1ZfOHyhN_B1hrDj3lOplpiEPjt0ZmYYUE",
+          "mode": "list",
+          "cachedResultName": "Travel Preferences",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1i4x8ab_eRF1ZfOHyhN_B1hrDj3lOplpiEPjt0ZmYYUE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "user_id",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1i4x8ab_eRF1ZfOHyhN_B1hrDj3lOplpiEPjt0ZmYYUE/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "user_id",
+              "lookupValue": "={{ $fromAI(\"user_id\", \"Unique identifier for the user\") }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        864,
+        224
+      ],
+      "id": "90cf63e7-14a5-44fb-bd74-8f18e9ec9ea5",
+      "name": "get_preferences",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "oqXYwRuvpF1NinLq",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "search_hotels": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "find_restaurant": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get_weather": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "search_attractions": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get_exchange_rate": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "find_destination": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "save_preference": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get_preferences": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "e057409f-946f-41b4-942c-bfc075e38cb3",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "63f22e7d515696890bb5b4dd9957561694174dcdbd7eee6eaf417677debfb1c9"
+  },
+  "nodeGroups": [],
+  "id": "lDKhvrVgAncFJlqU",
+  "tags": []
+}
